@@ -1,0 +1,7 @@
+* barpear
+
+This is a description of my barpear.
+
+** Usage
+
+To use my project, run this command: ./myproject --verbose
