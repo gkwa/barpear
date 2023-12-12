@@ -83,3 +83,29 @@ func TestRandomPositiveIntegerSliceUpToMax_UniqueOrder(t *testing.T) {
 		t.Errorf("Generated slices have the same order for different seeds. Seed42: %v, seedTime: %v", slice42, sliceSeededFromTime)
 	}
 }
+
+func TestRandomPositiveIntegerSliceUpToMax_RandomOrder(t *testing.T) {
+	max := 5
+
+	// Generate a slice with the current time's UnixNano as the seed
+	randomSlice := RandomPositiveIntegerSliceUpToMax(max)
+
+	// Check if the generated slice is not in ascending or descending order
+	isAscending := isSorted(randomSlice, true)
+	isDescending := isSorted(randomSlice, false)
+
+	if isAscending || isDescending {
+		t.Errorf("Generated slice is in ascending or descending order. Slice: %v", randomSlice)
+	}
+}
+
+// isSorted checks if the given slice is sorted in ascending or descending order.
+// If ascending is true, it checks for ascending order; otherwise, it checks for descending order.
+func isSorted(slice []int, ascending bool) bool {
+	for i := 1; i < len(slice); i++ {
+		if (ascending && slice[i-1] > slice[i]) || (!ascending && slice[i-1] < slice[i]) {
+			return false
+		}
+	}
+	return true
+}
